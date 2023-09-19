@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React DOM</title>
+    <script crossorigin src="https://unpkg.com/react@18.0.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.production.min.js"></script> 
+</head>
+<body>
+    <!--
+        1. Tại sao phải sử dụng React DOM
+        2. Tại sao lại tách React DOM ra
+        3. Render UI
+            <div class="post-item">
+                <h2 title="Học ReactJS">Học ReactJS</h2>
+                <p>Học ReactJS từ cơ bản đển nâng cao</p>
+            </div>
+    -->
+
+    <div id="root"></div>
+
+    <!-- 3 -->
+    <script>
+        const postItem = React.createElement(
+            'div',
+            {
+                className: 'post-item'
+            },
+            React.createElement('h2', {title : 'Học ReactJS'}, 'Học ReactJS'),
+            React.createElement('p', {}, 'Học ReactJS từ cơ bản đến nâng cao')
+        )
+
+        // Get root element
+        const container = document.getElementById('root')
+        
+        // React@17
+        // React DOM -> Render UI
+        // ReactDOM.render(postItem, root)
+
+        // React@18
+        const root = ReactDOM.createRoot(container)
+        root.render(postItem)
+
+    </script>
+</body>
+</html>
