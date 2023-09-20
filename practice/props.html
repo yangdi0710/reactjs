@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Props</title>
+    <script crossorigin src="https://unpkg.com/react@18.0.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.production.min.js"></script> 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!--
+        Props
+
+        - React elements
+            - Sử dụng props giống với như attribute của thẻ HTML
+            - 2 props class, for => className, htmlFor
+            - Phải tuân theo quy ước có sẵn
+        
+        - React components
+            - Sử dụng props giống như đối số cho component
+            - Tự do đặt tên cho props:
+                - Đặt theo camelCase
+                - *Có thể bao gồm dấu gạch ngang
+        
+        - Chú ý
+            - Prop "key" là prop đặc biệt
+            - Props cơ bản là đối số của component
+                => Props có thể là bất cứ kiểu dữ liệu gì
+            - Sử dụng destructuring
+    -->
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        // PostItem.js
+        function PostItem(){
+            return (
+                <div className="post-item">
+                    <img src="./" alt="" />
+                    <div className="post-title">This is title</div>
+                    <div className="post-desc">This is content</div>
+                    <div className="post-published">This is post-published</div>
+                </div>
+            )
+        }
+
+        // App.js
+        function App(){
+            return (
+                <div id="wrapper">
+                    <PostItem />
+                    <PostItem />
+                    <PostItem />
+                </div>
+            )
+        }
+
+        // Index.js
+        ReactDOM.render(<App />, document.getElementById('root'))
+        
+    </script>
+</body>
+</html>
