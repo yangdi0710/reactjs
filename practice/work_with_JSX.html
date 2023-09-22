@@ -148,23 +148,30 @@
         }
     ]
 
-        const CourseItem = ({course}) => (
+        // UI component
+        const CourseItem = ({ course , onClick }) => (
             <div>
-                <h2 onClick={() => alert(course.title)}>{course.title}</h2>
+                <h2 onClick={() => onClick(course)}>{course.title}</h2>
                 <img src={course.image_url} />
                 <p>{course.description}</p>
                 <p>{course.students_count}</p>
             </div>
         )
 
-        // App.js
+        // Container
         function App(){
+
+            const handleClick = (course) => {
+                alert(course.title)
+            }
+
             return (
                 <div id="wrapper">
                     {courses.map(course => (
                         <CourseItem 
                             key={course.id}
                             course = {course}
+                            onClick = {handleClick}
                         />
                     ))}
                 </div>
