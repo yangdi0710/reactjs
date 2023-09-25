@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work With JSX</title>
+    <script crossorigin src="https://unpkg.com/react@18.0.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.production.min.js"></script> 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!--
+        Làm việc với JSX
+
+        Phần I:
+        - Xử lý DOM events
+        - Component do chúng ta định nghĩa phải viết hoa ký tự đầu
+            - Chọn component trong 1 object
+        - Booleans, Null & Undefined không được render
+        - Kết hợp toán tử logic để render theo điều kiện
+
+        Phần II:
+        - Props trong JSX
+            - <Your component
+                propName1="String literals"
+                propName2={expression}
+            />
+            - Props default to true
+            - Spread/ Rest props
+            - Children prop
+                - <YourComponent>String Literals</YourComponent>
+                - <YourComponent>{expression}</YourComponent>
+            - Render props
+    -->
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        function List ({ data, children }){
+            return (
+                <ul>
+                    {data.map((...props) => children(...props))}    
+                </ul>
+            )
+        }
+
+        // Container
+        function App(){
+
+            const cars = ['BMW', 'Audi', 'Mer']
+
+            return (
+                <div id="wrapper">
+                    <List data={cars}>
+                        {(item, index) => <li key={index}>{item}</li>}
+                    </List>
+                </div>
+            )
+        }
+
+        // Index.js
+        ReactDOM.render(<App />, document.getElementById('root'))
+        
+    </script>
+</body>
+</html>
