@@ -1,14 +1,34 @@
 import { useStore, actions } from "./store";
-import { SET_TODO_INPUT } from "./store/constants";
+import { useRef } from "react";
 
 function App() {
 
-  const [state, dispatch] = useStore()
-  console.log(state);
-  const { todos, todoInput} = state
+  const [todo, dispatch] = useStore()
+
+  const { todos, todoInput, editIndex, editInput } = todo
+
+  const inputRef = useRef()
 
   const handleAdd = () => {
+  if(todoInput){
     dispatch(actions.addTodo(todoInput))
+    dispatch(actions.setTodoInput(""))
+  }    
+    inputRef.current.focus()
+  }
+
+  const handleStartEdit = ({ todo, index}) => {
+    dispatch(actions.startEditTodo({ todo, index }))
+  }
+
+
+  const handleDelete = (index) => {
+    dispatch(actions.deleteTodo(index))
+  }
+
+  const handleDeleteAll = () => {
+    dispatch(actions.deleteTodoAll())
+    inputRef.current.focus()
   }
 
   return (
@@ -16,6 +36,7 @@ function App() {
       <input
         value={todoInput}
         placeholder="Input Todos"
+        ref={inputRef}       
         onChange={e => {
           dispatch(actions.setTodoInput(e.target.value))
         }}
@@ -27,8 +48,42 @@ function App() {
         >
           Add
         </button>
+
+        <button
+          onClick={handleDeleteAll}
+        >
+          Delete
+        </button>
+
         {todos.map((todo, index) => (
-          <li key={index}>{todos}</li>
+          <li key={index} onDoubleClick={handleStartEdit({ todo, index})}>
+            { editIndex === index ? (
+                <input 
+                  autoFocus
+                  value={editInput}
+                  onChange={e => dispatch(actions.editTodo(e.target.value))}
+                  onBlur={() => dispatch(actions.endEditTodo({ editInput, index }))}
+                  onKeyUp={e => 
+                    e.key === "Enter" && dispatch(actions.endEditTodo({ editInput, index }))
+                  }
+                />
+              ) : (
+                <span>
+                  {todo}
+                  <i
+                    onClick={() => handleStartEdit( { todo, index})}
+                  >
+                    Update
+                  </i>
+                  <i
+                    onClick={() => handleDelete(index)}
+                  >
+                    X
+                  </i>
+                </span>
+              )
+            }
+          </li>
         ))}
     </div>
   );
