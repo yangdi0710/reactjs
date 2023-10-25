@@ -6,9 +6,10 @@ import {
     START_EDIT_TODO, 
     EDIT_TODO, 
     END_EDIT_TODO } from "./constants"
+import storage from "./storage";
 
 const initState = {
-    todos: [],
+    todos: storage.get(),
     todoInput: '',
     editIndex: null,
     editInput: ""
@@ -51,6 +52,7 @@ function reducer(state, action) {
             }
         case END_EDIT_TODO:
             state.todos[action.payload.index] = action.payload.editInput
+            storage.set(state.todos);
             return {
                 ...state,
                 editIndex: null

@@ -1,5 +1,5 @@
-import { useStore, actions } from "./store";
-import { useRef } from "react";
+import { useStore, actions, Storage } from "./store";
+import { useRef, useLayoutEffect } from "react";
 
 function App() {
 
@@ -9,12 +9,20 @@ function App() {
 
   const inputRef = useRef()
 
+  useLayoutEffect(() => {
+    // khi component được mounted thì focus input
+    inputRef.current.focus();
+    // lưu lại mỗi lần todos thay đổi
+    Storage.set(todos);
+  }, [todos]);
+
   const handleAdd = () => {
-  if(todoInput){
-    dispatch(actions.addTodo(todoInput))
-    dispatch(actions.setTodoInput(""))
-  }    
-    inputRef.current.focus()
+    if(todoInput){
+      dispatch(actions.addTodo(todoInput))
+      dispatch(actions.setTodoInput(""))
+      
+    }    
+      inputRef.current.focus()
   }
 
   const handleStartEdit = ({ todo, index}) => {
@@ -37,9 +45,9 @@ function App() {
         value={todoInput}
         placeholder="Input Todos"
         ref={inputRef}       
-        onChange={e => {
+        onChange={e => 
           dispatch(actions.setTodoInput(e.target.value))
-        }}
+        }
       >
       </input>
 
@@ -52,11 +60,11 @@ function App() {
         <button
           onClick={handleDeleteAll}
         >
-          Delete
+          Delete All
         </button>
 
         {todos.map((todo, index) => (
-          <li key={index} onDoubleClick={handleStartEdit({ todo, index})}>
+          <li key={index} onDoubleClick={() => handleStartEdit({ todo, index})}>
             { editIndex === index ? (
                 <input 
                   autoFocus
@@ -70,16 +78,17 @@ function App() {
               ) : (
                 <span>
                   {todo}
-                  <i
+                  <button
+                    style={{margin: "5px 10px"}}
                     onClick={() => handleStartEdit( { todo, index})}
                   >
                     Update
-                  </i>
-                  <i
+                  </button>
+                  <button
                     onClick={() => handleDelete(index)}
                   >
                     X
-                  </i>
+                  </button>
                 </span>
               )
             }
