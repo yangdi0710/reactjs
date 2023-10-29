@@ -8,5 +8,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
+    "react-router-dom": "^6.17.0",
+    "sort-by": "^1.2.0"
+  }
 }
